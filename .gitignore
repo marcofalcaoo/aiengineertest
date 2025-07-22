@@ -4,5 +4,4 @@
 # Firebase config
 src/supabase-config.js
 
-# Build output
-/dist
+

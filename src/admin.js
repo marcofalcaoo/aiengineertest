@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
         // Se não estiver logado, redireciona para a página de login
-        window.location.href = '/login.html';
+        window.location.href = './login.html';
         return;
     }
 
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Erro ao fazer logout:', error);
         } else {
             // Redireciona para a página de login após o logout
-            window.location.href = '/login.html';
+            window.location.href = './login.html';
         }
     });
 });

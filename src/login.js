@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Verifica se já existe uma sessão ativa
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
-        window.location.href = '/admin.html';
+        window.location.href = './admin.html';
         return;
     }
 
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             errorMessageDiv.classList.remove('hidden');
             console.error('Erro no login:', error.message);
         } else {
-            window.location.href = '/admin.html';
+            window.location.href = './admin.html';
         }
     });
 });
