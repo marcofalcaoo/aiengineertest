@@ -1,0 +1,6 @@
+// Renomeie este arquivo para 'supabase-config.js' e cole suas credenciais
+
+const SUPABASE_URL = 'SUA_URL_DO_PROJETO_SUPABASE';
+const SUPABASE_ANON_KEY = 'SUA_CHAVE_ANON_PUBLIC';
+
+export { SUPABASE_URL, SUPABASE_ANON_KEY };

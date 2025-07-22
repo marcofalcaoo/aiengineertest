@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Financiamento</title>
+    <link href="/dist/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md m-4">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-gray-800">Simulador de Financiamento</h1>
+            <a href="/login.html" class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Admin</a>
+        </div>
+
+        <form id="simulation-form" class="space-y-6">
+            <div>
+                <label for="property-value" class="text-sm font-medium text-gray-700">Valor do imóvel</label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                        <span class="text-gray-500 sm:text-sm">R$</span>
+                    </div>
+                    <input type="text" id="property-value" class="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="200.000,00">
+                </div>
+            </div>
+
+            <div>
+                <label for="down-payment" class="text-sm font-medium text-gray-700">Valor da entrada</label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                        <span class="text-gray-500 sm:text-sm">R$</span>
+                    </div>
+                    <input type="text" id="down-payment" class="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="40.000,00">
+                </div>
+                <p id="down-payment-min-error" class="text-xs text-red-600 mt-1 hidden">A entrada deve ser de no mínimo 20% do valor do imóvel.</p>
+                <p id="down-payment-max-error" class="text-xs text-red-600 mt-1 hidden">A entrada não pode ser maior que o valor do imóvel.</p>
+            </div>
+
+            <div>
+                <label for="loan-term" class="text-sm font-medium text-gray-700">Prazo do Financiamento</label>
+                <select id="loan-term" class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="60">5 anos</option>
+                    <option value="120">10 anos</option>
+                    <option value="180">15 anos</option>
+                    <option value="240">20 anos</option>
+                    <option value="300">25 anos</option>
+                    <option value="360" selected>30 anos</option>
+                    <option value="420">35 anos</option>
+                </select>
+            </div>
+
+            <div>
+                <button type="submit" class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Simular</button>
+            </div>
+        </form>
+
+        <!-- Área de Resultados -->
+        <div id="results" class="hidden pt-6 border-t border-gray-200">
+            <h2 class="text-xl font-bold text-center text-gray-800 mb-4">Resultado da Simulação</h2>
+            <div class="space-y-4">
+                <div class="flex justify-between text-lg">
+                    <span class="font-medium text-gray-700">Valor da Parcela:</span>
+                    <span id="monthly-payment" class="font-semibold text-indigo-600"></span>
+                </div>
+                <div class="flex justify-between text-lg">
+                    <span class="font-medium text-gray-700">Custo Total:</span>
+                    <span id="total-cost" class="font-semibold text-indigo-600"></span>
+                </div>
+            </div>
+            <div class="mt-6">
+                <button type="button" id="generate-proposal" class="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Gerar Proposta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Assinatura -->
+    <div id="signature-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center hidden">
+        <div class="relative mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Assinatura da Proposta</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500 mb-4">Digite seu nome completo para assinar a proposta. Isso confirmará seu aceite dos termos da simulação.</p>
+                    <input type="text" id="signer-name" placeholder="Seu nome completo" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="confirm-signature" class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Assinar e Baixar PDF</button>
+                    <button id="cancel-signature" class="mt-2 px-4 py-2 bg-gray-200 text-gray-800 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-300 focus:outline-none">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="./src/app.js"></script>
+</body>
+</html>

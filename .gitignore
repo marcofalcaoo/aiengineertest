@@ -1,0 +1,8 @@
+# Dependencies
+/node_modules
+
+# Firebase config
+src/supabase-config.js
+
+# Build output
+/dist
