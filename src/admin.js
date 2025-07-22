@@ -1,4 +1,6 @@
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './supabase-config.js';
+// Cole aqui as mesmas chaves do Supabase que você usará nos outros arquivos
+const SUPABASE_URL = '';
+const SUPABASE_ANON_KEY = '';
 
 // Inicializa o Supabase
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

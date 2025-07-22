@@ -1,4 +1,6 @@
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './supabase-config.js';
+// Substitua pelas suas variáveis de ambiente ou cole as chaves diretamente para teste
+const SUPABASE_URL = 'https://opxrwwqugnjmwmftfyct.supabase.co'; // Ex: https://seusite.supabase.co
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9weHJ3d3F1Z25qbXdtZnRmeWN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMTYxNjEsImV4cCI6MjA2ODc5MjE2MX0.DVp2kgLhumoiaN_3mcXXe_1HvjWVG2xZ6Jur6_vLBUU'; // Ex: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 // Inicializa o Supabase
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
